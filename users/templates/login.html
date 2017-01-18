@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container offset1">
+        <div class="row">
+            <h3>User login</h3>
+            <form action="/users/login/" method="post">
+                {% csrf_token %}
+                {{ login_form.as_p }}
+                {% if login_error %}
+                    <label class="error">{{ login_error }}</label>
+                {% endif %}
+                <input type="submit" class="button" value="Submit" />
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container offset1">
+        <div class="row">
+            <h3>User registration</h3>
+            <form action="/users/registration/" method="post">
+                {% csrf_token %}
+                {{ registration_form.as_p }}
+                <input class="button" type="submit" value="Registration">
+            </form>
+        </div>
+    </div>
+{%  endblock %}
