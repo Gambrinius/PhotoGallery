@@ -11,15 +11,15 @@
             {% endif %}
 
             <div class="col-lg-3 col-lg-offset-0">
-                <h5>First name: {{ profile.first_name }}</h5>
-                <h5>Last name: {{ profile.last_name }}</h5>
-                <h5>Birthday: {{ profile.birthday }}</h5>
+                <p>First name: {{ profile.first_name }}</p>
+                <p>Last name: {{ profile.last_name }}</p>
+                <p>Birthday: {{ profile.birthday }}</p>
 
                 <br>
-                <h5>About me: </h5>
-                <h5>{{ profile.about_user }}</h5>
+                <p>About me: </p>
+                <p>{{ profile.about_user }}</p>
 
-                <h5>Last login: {{ profile.user.last_login }}</h5>
+                <p>Last login: {{ profile.user.last_login }}</p>
             </div>
         </div>
     </div>
@@ -28,11 +28,11 @@
 
     <div class="container inline-group col-md-7">
         <div class="col-md-5 col-lg-offset-1">
-            <a href="/users/edit_profile/"><input class="button" type="submit" value="Edit profile"></a>
+            <a href="/users/edit_profile/"><input class="btn btn-success" type="submit" value="Edit profile"></a>
         </div>
 
         <div class="col-md-2">
-            <a href="/users/upload_image/"><input class="button" type="submit" value="Upload image"></a>
+            <a href="/users/upload_image/"><input class="btn btn-info" type="submit" value="Upload image"></a>
         </div>
     </div>
 {% endblock %}

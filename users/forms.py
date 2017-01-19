@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
-from users.models import UserProfile
+from users.models import UserProfile, UserImage
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -32,3 +32,9 @@ class ProfileForm(ModelForm):
         help_texts = {
             'birthday': 'Input like, 1970-04-15',
         }
+
+
+class UserImageForm(ModelForm):
+    class Meta:
+        model = UserImage
+        fields = ['image']

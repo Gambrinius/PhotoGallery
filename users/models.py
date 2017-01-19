@@ -7,7 +7,7 @@ class UserProfile(models.Model):
     class Meta:
         db_table = 'profile'
 
-    user = models.OneToOneField(User)  # null=True
+    user = models.OneToOneField(User)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     birthday = models.DateField(null=True)
@@ -22,3 +22,18 @@ class UserProfile(models.Model):
             return 'User "%s" -(%s %s)' % (self.user.username, self.first_name, self.last_name)
         else:
             return 'User "%s" - (None first && last name)' % self.user.username
+
+
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/pictures//user_<id>/<filename>
+    return 'pictures/user_{0}/{1}'.format(instance.user.id, filename)
+
+
+class UserImage(models.Model):
+    class Meta:
+        db_table = 'user_image'
+
+    user = models.ForeignKey(User)
+    image_height = models.PositiveIntegerField(default=200)
+    image_width = models.PositiveIntegerField(default=200)
+    image = models.ImageField(upload_to=user_directory_path, height_field='image_height', width_field='image_width')

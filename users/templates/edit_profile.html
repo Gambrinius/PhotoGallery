@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            <h3>User registration</h3>
+            <h3>Edit Profile</h3>
             <form action="/users/edit_profile/" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ edit_form.as_p }}

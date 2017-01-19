@@ -4,8 +4,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.template.context_processors import csrf
 from django.core.exceptions import ObjectDoesNotExist
 
-from users.models import UserProfile
-from users.forms import UserRegistrationForm, LoginForm, ProfileForm
+from users.models import UserProfile, UserImage
+from users.forms import UserRegistrationForm, LoginForm, ProfileForm, UserImageForm
+
+from PIL import Image
 
 
 def registration_view(request):
@@ -77,6 +79,7 @@ def edit_view(request):
         context['edit_form'] = form
         if form.is_valid():
             user_profile = UserProfile.objects.get(user=request.user)
+
             user_profile.first_name = form.cleaned_data['first_name']
             user_profile.last_name = form.cleaned_data['last_name']
             user_profile.birthday = form.cleaned_data['birthday']
@@ -96,4 +99,23 @@ def edit_view(request):
 
 
 def upload_view(request):
-    pass
+    context = dict()
+    if request.method == 'POST':
+        form = UserImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            my_file = request.FILES['image']
+            im = Image.open(my_file)
+            (width, height) = im.size
+            user_image = UserImage.objects.create(user=request.user)
+            user_image.image_height = height
+            user_image.image_width = width
+
+            if request.POST.get('avatar', True):
+                user_image.image = request.FILES['image']
+
+            user_image.save()
+
+            return redirect('profile')
+    else:
+        context['upload_form'] = UserImageForm()
+    return render(request, 'upload_image.html', context)

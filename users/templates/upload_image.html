@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <h3>User upload image</h3>
+            <form action="/users/upload_image/" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ upload_form.as_p }}
+                <input class="btn btn-info" type="submit" value="Confirm upload">
+            </form>
+        </div>
+    </div>
+{% endblock %}
