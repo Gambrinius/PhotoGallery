@@ -84,7 +84,7 @@ def edit_view(request):
             user_profile.url_height = 200
             user_profile.url_width = 200
 
-            if request.POST.get('is_private', False):
+            if request.POST.get('avatar', True):
                 user_profile.avatar = request.FILES['avatar']
 
             user_profile.save()
@@ -93,6 +93,7 @@ def edit_view(request):
         else:
             context['form'] = form
     return render(request, "edit_profile.html", context)
+
 
 def upload_view(request):
     pass
