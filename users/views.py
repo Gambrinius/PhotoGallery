@@ -1,9 +1,11 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, redirect
+from django.http.response import Http404
 from django.contrib.auth import authenticate, login, logout
 from django.template.context_processors import csrf
-from users.forms import UserRegistrationForm, LoginForm
+from django.core.exceptions import ObjectDoesNotExist
 
-# Create your views here.
+from users.models import UserProfile
+from users.forms import UserRegistrationForm, LoginForm, ProfileForm
 
 
 def registration_view(request):
@@ -14,7 +16,7 @@ def registration_view(request):
         form = UserRegistrationForm(request.POST)
         context['registration_form'] = form
         if form.is_valid():
-            form.save()  # save user to database if form is valid
+            form.save()
 
             return HttpResponseRedirect('/')
         else:
@@ -49,3 +51,48 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
 
+
+def profile_view(request):
+    try:
+        context = dict()
+        user_profile, created = UserProfile.objects.get_or_create(user_id=request.user.id)
+        user_profile.save()
+
+        context['profile'] = user_profile
+        context['user'] = request.user
+
+    except ObjectDoesNotExist:
+        raise Http404
+
+    return render(request, "profile.html", context)
+
+
+def edit_view(request):
+    context = dict()
+    context['user'] = request.user
+    context['edit_form'] = ProfileForm(instance=UserProfile.objects.get(user=request.user))
+    context.update(csrf(request))
+    if request.POST:
+        form = ProfileForm(request.POST, request.FILES)
+        context['edit_form'] = form
+        if form.is_valid():
+            user_profile = UserProfile.objects.get(user=request.user)
+            user_profile.first_name = form.cleaned_data['first_name']
+            user_profile.last_name = form.cleaned_data['last_name']
+            user_profile.birthday = form.cleaned_data['birthday']
+            user_profile.about_user = form.cleaned_data['about_user']
+            user_profile.url_height = 200
+            user_profile.url_width = 200
+
+            if request.POST.get('is_private', False):
+                user_profile.avatar = request.FILES['avatar']
+
+            user_profile.save()
+
+            return redirect('profile')
+        else:
+            context['form'] = form
+    return render(request, "edit_profile.html", context)
+
+def upload_view(request):
+    pass

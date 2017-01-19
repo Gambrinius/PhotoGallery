@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <h3>Profile {{ profile.user.username }}</h3>
+            {% if profile.avatar %}
+                <img src={{ profile.avatar.url }} height="200px" width="200px"  border="1px" align="left">
+            {%  else %}
+                <img src="{% static "images/no-avatar.gif" %}" height="200px" width="200px"  border="1px" align="left">
+            {% endif %}
+
+            <div class="col-lg-3 col-lg-offset-0">
+                <h5>First name: {{ profile.first_name }}</h5>
+                <h5>Last name: {{ profile.last_name }}</h5>
+                <h5>Birthday: {{ profile.birthday }}</h5>
+
+                <br>
+                <h5>About me: </h5>
+                <h5>{{ profile.about_user }}</h5>
+
+                <h5>Last login: {{ profile.user.last_login }}</h5>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="container inline-group col-md-7">
+        <div class="col-md-5 col-lg-offset-1">
+            <a href="/users/edit_profile/"><input class="button" type="submit" value="Edit profile"></a>
+        </div>
+
+        <div class="col-md-2">
+            <a href="/users/upload_image/"><input class="button" type="submit" value="Upload image"></a>
+        </div>
+    </div>
+{% endblock %}

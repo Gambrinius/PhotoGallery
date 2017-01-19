@@ -112,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Minsk'
 
 USE_I18N = True
 
@@ -128,3 +128,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,  'static'),
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MAX_UPLOAD_SIZE = "5242880"    # max upload file size 5 MB
+
+MEDIA_URL = '/media/'

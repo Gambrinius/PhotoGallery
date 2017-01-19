@@ -22,5 +22,5 @@ urlpatterns = [
     url(r'^', include('gallery.urls')),
     url(r'^users/', include('users.urls')),
     url(r'^admin/', admin.site.urls),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

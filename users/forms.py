@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.forms import ModelForm
+from users.models import UserProfile
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -21,3 +23,12 @@ class UserRegistrationForm(UserCreationForm):
 class LoginForm(forms.Form):
     username = forms.CharField(label='User Name', max_length=64)
     password = forms.CharField(widget=forms.PasswordInput())
+
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['avatar', 'first_name', 'last_name', 'birthday', 'about_user']
+        help_texts = {
+            'birthday': 'Input like, 1970-04-15',
+        }
