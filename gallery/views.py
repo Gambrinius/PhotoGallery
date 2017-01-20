@@ -1,7 +1,9 @@
-from django.shortcuts import render, HttpResponse
-
+from django.shortcuts import render
+from users.models import UserImage
 # Create your views here.
 
 
-def index(request):
-    return render(request, 'main.html')
+def main_gallery_view(request):
+    context = dict()
+    context['image_list'] = UserImage.objects.all()
+    return render(request, 'main.html', context)

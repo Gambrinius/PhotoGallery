@@ -62,6 +62,7 @@ def profile_view(request):
 
         context['profile'] = user_profile
         context['user'] = request.user
+        context['image_list'] = UserImage.objects.filter(user=request.user)
 
     except ObjectDoesNotExist:
         raise Http404

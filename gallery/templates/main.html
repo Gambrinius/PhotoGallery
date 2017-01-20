@@ -10,101 +10,14 @@
     <!--Классическая галерея Fancybox с подключением Twitter Bootstrap -->
     <div class="container">
         <div class="row">
-            <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-            <a class="fancyimage" rel="group" href="/media/pictures/001.jpg">
-              <img class="img-responsive" src="/media/pictures/001.jpg" />
-            </a>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-            <a class="fancyimage" rel="group" href="/media/pictures/e30a302f.jpg">
-              <img class="img-responsive" src="/media/pictures/e30a302f.jpg" />
-            </a>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-            <a class="fancyimage" rel="group" href="/media/pictures/003.jpg">
-              <img class="img-responsive" src="/media/pictures/003.jpg" />
-            </a>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-            <a class="fancyimage" rel="group" href="/media/pictures/004.jpg">
-              <img class="img-responsive" src="/media/pictures/004.jpg" />
-            </a>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-            <a class="fancyimage" rel="group" href="/media/pictures/005.jpg">
-              <img class="img-responsive" src="/media/pictures/005.jpg" />
-            </a>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-            <a class="fancyimage" rel="group" href="/media/pictures/006.jpg">
-              <img class="img-responsive" src="/media/pictures/006.jpg" />
-            </a>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-            <a class="fancyimage" rel="group" href="/media/pictures/007.jpg">
-              <img class="img-responsive" src="/media/pictures/007.jpg" />
-            </a>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-            <a class="fancyimage" rel="group" href="/media/pictures/008.jpg">
-              <img class="img-responsive" src="/media/pictures/008.jpg" />
-            </a>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-            <a class="fancyimage" rel="group" href="/media/pictures/009.jpg">
-              <img class="img-responsive" src="/media/pictures/009.jpg" />
-            </a>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-            <a class="fancyimage" rel="group" href="/media/pictures/010.jpg">
-              <img class="img-responsive" src="/media/pictures/010.jpg" />
-            </a>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-            <a class="fancyimage" rel="group" href="/media/pictures/011.jpg">
-              <img class="img-responsive" src="/media/pictures/011.jpg" />
-            </a>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-            <a class="fancyimage" rel="group" href="/media/pictures/012.jpg">
-              <img class="img-responsive" src="/media/pictures/012.jpg" />
-            </a>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-            <a class="fancyimage" rel="group" href="/media/pictures/013.jpg">
-              <img class="img-responsive" src="/media/pictures/013.jpg" />
-            </a>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-            <a class="fancyimage" rel="group" href="/media/pictures/014.jpg">
-              <img class="img-responsive" src="/media/pictures/014.jpg" />
-            </a>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-            <a class="fancyimage" rel="group" href="/media/pictures/015.jpg">
-              <img class="img-responsive" src="/media/pictures/015.jpg" />
-            </a>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-            <a class="fancyimage" rel="group" href="/media/pictures/016.jpg">
-              <img class="img-responsive" src="/media/pictures/016.jpg" />
-            </a>
-            </div>
+            {% for im in image_list %}
+                <div class="col-md-3 col-sm-4 col-xs-6 thumb">
+                    <a class="fancyimage" rel="group" href="{{ im.image.url }}">
+                      <img class="img-responsive" src="{{ im.image.url }}" />
+                    </a>
+                    <p>This is Owner of Photo</p>
+                </div>
+            {% endfor %}
         </div>
         <br>
   </div>

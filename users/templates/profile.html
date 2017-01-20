@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
-    <div class="container">
+    <div class="container margin-bottom margin-up">
         <div class="row">
             <h3>Profile {{ profile.user.username }}</h3>
             {% if profile.avatar %}
-                <img src={{ profile.avatar.url }} height="200px" width="200px"  border="1px" align="left">
+                <img src="{{ profile.avatar.url }}" height="200px" width="200px"  border="1px" align="left">
             {%  else %}
                 <img src="{% static "images/no-avatar.gif" %}" height="200px" width="200px"  border="1px" align="left">
             {% endif %}
@@ -26,13 +26,53 @@
 
     <br>
 
-    <div class="container inline-group col-md-7">
-        <div class="col-md-5 col-lg-offset-1">
-            <a href="/users/edit_profile/"><input class="btn btn-success" type="submit" value="Edit profile"></a>
+    <!-- Кнопки редактирования профиля и загрузки изображений -->
+    <div class="container">
+        <div class=" col-sm-6 col-md-4 col-lg-3">
+            <a href="/users/edit_profile/"><input class="btn btn-warning" type="submit" value="Edit profile"></a>
         </div>
 
-        <div class="col-md-2">
-            <a href="/users/upload_image/"><input class="btn btn-info" type="submit" value="Upload image"></a>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <a href="/users/upload_image/"><input class="btn btn-primary" type="submit" value="Upload image"></a>
         </div>
     </div>
+
+    <!-- Модальное окно -->
+    <div class="modal fade" id="image-modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <div class="modal-title">Просмотр изображения</div>
+          </div>
+          <div class="modal-body">
+            <img class="img-responsive center-block" src="" alt="">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Галерея Thumbnails из изображений -->
+    <div class="container margin-top">
+        <div class="row">
+            {% for im in image_list %}
+                <!-- n-ое Изображение -->
+                <div class="col-sm-6 col-md-4 col-lg-3 margin-image">
+                    <a href="{{ im.image.url }}" class="thumbnail">
+                       <img src="{{ im.image.url }}" alt="user image">
+                    </a>
+                    <a href="{{ im.image.url }}" target="_blank">
+                        <input class="btn btn-success" type="submit" value="Open full-size image">
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <br>
+    <br>
+
 {% endblock %}
