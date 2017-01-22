@@ -18,8 +18,8 @@
           padding:5px;
         }
         .thumb img:hover {
-          filter: gray; /* IE6-9 */
-          -webkit-filter: grayscale(1);
+            -webkit-filter: drop-shadow(10px 10px 12px gray); /* Safari */
+            filter: drop-shadow(10px 10px 12px gray);
         }
         .thumb {
           padding:5px;
@@ -66,11 +66,11 @@
               <!-- Список ссылок, расположенный справа -->
             <ul class="nav navbar-nav navbar-right">
               {% if request.user.is_authenticated %}
-                  <li><a href="/users/profile/">Профиль</a></li>
-                  <li><a href="/users/logout/">Выйти</a></li>
+                  <li><a href="{% url 'profile' %}">Профиль</a></li>
+                  <li><a href="{% url 'logout' %}">Выйти</a></li>
               {% else %}
-                  <li><a href="/users/login/">Войти</a></li>
-                  <li><a href="/users/registration/">Регистрация</a></li>
+                  <li><a href="{% url 'login' %}">Войти</a></li>
+                  <li><a href="{% url 'registration' %}">Регистрация</a></li>
               {% endif %}
             </ul>
         </div>

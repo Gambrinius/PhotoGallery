@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.timezone import datetime
 
 
 # Create your models here.
@@ -37,3 +38,8 @@ class UserImage(models.Model):
     image_height = models.PositiveIntegerField(default=200)
     image_width = models.PositiveIntegerField(default=200)
     image = models.ImageField(upload_to=user_directory_path, height_field='image_height', width_field='image_width')
+    creation_date = models.DateTimeField(default=datetime.now())
+    public = models.BooleanField(default=True)
+
+    def __str__(self):
+        return ' %s - %s - %s' % (self.user.username, self.image.name, self.creation_date)

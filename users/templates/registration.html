@@ -4,7 +4,7 @@
     <div class="container offset1">
         <div class="row">
             <h3>User registration</h3>
-            <form action="/users/registration/" method="post">
+            <form action="{% url 'registration' %}" method="post">
                 {% csrf_token %}
                 {{ registration_form.as_p }}
                 <input class="button btn btn-success" type="submit" value="Registration">

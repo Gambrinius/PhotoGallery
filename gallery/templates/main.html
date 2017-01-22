@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+
 {% block content %}
     <div class="container">
         <div class="row">
@@ -7,7 +8,7 @@
         </div>
     </div>
 
-    <!--Классическая галерея Fancybox с подключением Twitter Bootstrap -->
+        <!--Классическая галерея Fancybox с подключением Twitter Bootstrap -->
     <div class="container">
         <div class="row">
             {% for im in image_list %}
@@ -15,10 +16,12 @@
                     <a class="fancyimage" rel="group" href="{{ im.image.url }}">
                       <img class="img-responsive" src="{{ im.image.url }}" />
                     </a>
-                    <p>This is Owner of Photo</p>
+                    <div class="inline-group">
+                            <p> <strong>{{ im.user.username }}</strong> , {{ im.creation_date }}</p>
+                    </div>
                 </div>
             {% endfor %}
         </div>
         <br>
-  </div>
+    </div>
 {%  endblock %}

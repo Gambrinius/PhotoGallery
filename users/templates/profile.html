@@ -29,11 +29,11 @@
     <!-- Кнопки редактирования профиля и загрузки изображений -->
     <div class="container">
         <div class=" col-sm-6 col-md-4 col-lg-3">
-            <a href="/users/edit_profile/"><input class="btn btn-warning" type="submit" value="Edit profile"></a>
+            <a href="{% url 'edit_profile' %}"><input class="btn btn-warning" type="submit" value="Edit profile"></a>
         </div>
 
         <div class="col-sm-6 col-md-4 col-lg-3">
-            <a href="/users/upload_image/"><input class="btn btn-primary" type="submit" value="Upload image"></a>
+            <a href="{% url 'upload_image' %}"><input class="btn btn-primary" type="submit" value="Upload image"></a>
         </div>
     </div>
 
@@ -60,14 +60,40 @@
         <div class="row">
             {% for im in image_list %}
                 <!-- n-ое Изображение -->
-                <div class="col-sm-6 col-md-4 col-lg-3 margin-image">
+                <div class="col-sm-6 col-md-6 col-lg-3 margin-image">
                     <a href="{{ im.image.url }}" class="thumbnail">
                        <img src="{{ im.image.url }}" alt="user image">
                     </a>
-                    <a href="{{ im.image.url }}" target="_blank">
-                        <input class="btn btn-success" type="submit" value="Open full-size image">
-                    </a>
+
+                    <p>{{ im.creation_date }},
+                        {% if im.public %}
+                            <strong>public image</strong>
+                        {% else %}
+                            <strong>private image</strong>
+                        {% endif %}
+                    </p>
+
+                    <!-- <div class="inline-group">
+
+                    </div> -->
+                    <div class="row margin-image">
+                        <div class="col-md-2 ">
+                            <a href="{{ im.image.url }}" target="_blank">
+                                <input class="btn btn-success" type="submit" value="Full-size image">
+                            </a>
+                        </div>
+
+                        <div class="col-md-2 col-md-offset-4">
+                            <form action="{% url 'delete_image' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="image_id" value="{{ im.id }}">
+                                <input class="btn btn-danger" type="submit" value="Delete image">
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
+
             {% endfor %}
         </div>
     </div>

@@ -37,4 +37,4 @@ class ProfileForm(ModelForm):
 class UserImageForm(ModelForm):
     class Meta:
         model = UserImage
-        fields = ['image']
+        fields = ['image', 'public']

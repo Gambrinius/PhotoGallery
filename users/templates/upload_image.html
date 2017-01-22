@@ -3,10 +3,28 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            <h3>User upload image</h3>
-            <form action="/users/upload_image/" method="post" enctype="multipart/form-data">
+            <h3>Upload images</h3>
+            <form action="{% url 'upload_image' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ upload_form.as_p }}
+
+                {% if file_format or file_size %}
+                    <div class="alert alert-info">
+                      <strong>Info:</strong> file format - {{ file_format }} , file size - {{ file_size }} bytes.
+                    </div>
+                {% endif %}
+
+                {% if upload_error %}
+                    <div class="alert alert-danger">
+                      <p><strong>Attention!</strong> {{ upload_error }}</p>
+                    </div>
+                {% endif %}
+
+                {% if successful_upload %}
+                    <div class="alert alert-success">
+                      <p><strong>Success! </strong> {{ successful_upload }}</p>
+                    </div>
+                {% endif %}
                 <input class="btn btn-info" type="submit" value="Confirm upload">
             </form>
         </div>

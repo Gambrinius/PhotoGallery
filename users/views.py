@@ -1,9 +1,12 @@
+import os
+
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.http.response import Http404
 from django.contrib.auth import authenticate, login, logout
 from django.template.context_processors import csrf
 from django.core.exceptions import ObjectDoesNotExist
 
+from PhotoGallery.settings import MAX_UPLOAD_SIZE
 from users.models import UserProfile, UserImage
 from users.forms import UserRegistrationForm, LoginForm, ProfileForm, UserImageForm
 
@@ -43,7 +46,7 @@ def login_view(request):
                 else:
                     print("The account has been disabled!")
             else:
-                context['login_error'] = "User not found or incorrect information"
+                context['login_error'] = "User not found or incorrect input."
                 return render(request, "login.html", context)
     else:
         return render(request, "login.html", context)
@@ -101,22 +104,41 @@ def edit_view(request):
 
 def upload_view(request):
     context = dict()
+    image_formats = ['.JPG', '.jpg', '.JPEG', '.jpeg', '.PNG', '.png', '.GIF', '.gif', '.BMP', '.bmp']
+    context['upload_form'] = UserImageForm()
     if request.method == 'POST':
-        form = UserImageForm(request.POST, request.FILES)
-        if form.is_valid():
-            my_file = request.FILES['image']
-            im = Image.open(my_file)
-            (width, height) = im.size
-            user_image = UserImage.objects.create(user=request.user)
-            user_image.image_height = height
-            user_image.image_width = width
+        uploaded_file = request.FILES['image']  # object UploadedFile
+        filename, context['file_format'] = os.path.splitext(uploaded_file.name)
+        context['file_size'] = uploaded_file.size
 
-            if request.POST.get('avatar', True):
-                user_image.image = request.FILES['image']
+        if context['file_format'] in image_formats:
+            if uploaded_file.size <= int(MAX_UPLOAD_SIZE):
 
-            user_image.save()
+                form = UserImageForm(request.POST, request.FILES)
+                if form.is_valid():
+                    img = Image.open(uploaded_file)
+                    (width, height) = img.size
+                    user_image = UserImage.objects.create(user=request.user)
+                    user_image.image_height = height
+                    user_image.image_width = width
+                    user_image.public = form.cleaned_data['public']
+                    user_image.image = request.FILES['image']
+                    user_image.save()
+                    context['successful_upload'] = 'Image file %s successful uploaded.' % uploaded_file.name
+                    return render(request, 'upload_image.html', context)
 
-            return redirect('profile')
-    else:
-        context['upload_form'] = UserImageForm()
+            context['upload_error'] = "'Please keep file size under %s bytes. Current file size %s bytes'" \
+                                      % (MAX_UPLOAD_SIZE, uploaded_file.size)
+        else:
+            context['upload_error'] = "You try upload image/file not allowed format! \n " \
+                                      "Please, try to upload files with '.jpg', '.png', '.gif', '.bmp' formats."
+
     return render(request, 'upload_image.html', context)
+
+
+def delete_image_view(request):
+    if request.method == 'POST':
+        image = UserImage.objects.get(id=request.POST['image_id'])
+        image.delete()
+
+    return redirect('profile')
