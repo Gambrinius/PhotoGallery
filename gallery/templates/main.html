@@ -17,7 +17,7 @@
                       <img class="img-responsive" src="{{ im.image.url }}" />
                     </a>
                     <div class="inline-group">
-                            <p> <strong>{{ im.user.username }}</strong> , {{ im.creation_date }}</p>
+                            <p><a href="{% url 'profile' user_id=im.user.id %}"><strong>{{ im.user.username }}</strong> </a> , {{ im.creation_date }}</p>
                     </div>
                 </div>
             {% endfor %}

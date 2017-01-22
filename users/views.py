@@ -44,7 +44,7 @@ def login_view(request):
 
                     return HttpResponseRedirect('/')
                 else:
-                    print("The account has been disabled!")
+                    context['login_error'] = "The account has been disabled!"
             else:
                 context['login_error'] = "User not found or incorrect input."
                 return render(request, "login.html", context)
@@ -57,18 +57,22 @@ def logout_view(request):
     return HttpResponseRedirect('/')
 
 
-def profile_view(request):
-    try:
-        context = dict()
-        user_profile, created = UserProfile.objects.get_or_create(user_id=request.user.id)
-        user_profile.save()
+def profile_view(request, user_id):
+    context = dict()
+    if request.user.is_authenticated() and (request.user.id == int(user_id)):  # owner and auth
+        try:
+            user_profile, created = UserProfile.objects.get_or_create(user_id=request.user.id)
+            user_profile.save()
+            context['owner'] = True
+        except ObjectDoesNotExist:
+            raise Http404
 
-        context['profile'] = user_profile
-        context['user'] = request.user
-        context['image_list'] = UserImage.objects.filter(user=request.user)
+    else:  # anonymous or auth not owner
+        user_profile = UserProfile.objects.get(user_id=user_id)
+        context['owner'] = False
 
-    except ObjectDoesNotExist:
-        raise Http404
+    context['profile'] = user_profile
+    context['image_list'] = UserImage.objects.filter(user=user_id)
 
     return render(request, "profile.html", context)
 
@@ -96,7 +100,7 @@ def edit_view(request):
 
             user_profile.save()
 
-            return redirect('profile')
+            return redirect('profile', user_id=request.user.id)
         else:
             context['form'] = form
     return render(request, "edit_profile.html", context)
@@ -141,4 +145,4 @@ def delete_image_view(request):
         image = UserImage.objects.get(id=request.POST['image_id'])
         image.delete()
 
-    return redirect('profile')
+    return redirect('profile', user_id=request.user.id)
